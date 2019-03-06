@@ -37,9 +37,9 @@ class ASTPrinter {
             switch factor {
             case .simple(let atom):
                 prettyPrint(ast: AST.atom(atom), indentationLevel: indentationLevel + 1)
-            case .composite(let atom, let metacharcter):
+            case .composite(let atom, let metacharacter):
                 prettyPrint(ast: AST.atom(atom), indentationLevel: indentationLevel + 1)
-                prettyPrint(ast: AST.metacharacter(metacharcter), indentationLevel: indentationLevel + 1)
+                print("\(createIndentation(level: indentationLevel))Metacharacter: \(metacharacter.rawValue)")
             }
         case .atom(let atom):
             print("\(createIndentation(level: indentationLevel))Atom:")
@@ -51,8 +51,6 @@ class ASTPrinter {
             case .group(let expression):
                 prettyPrint(ast: AST.expression(expression), indentationLevel: indentationLevel + 1)
             }
-        case .metacharacter(let metacharacter):
-            print("\(createIndentation(level: indentationLevel))Metacharacter: \(metacharacter.rawValue)")
         }
     }
 

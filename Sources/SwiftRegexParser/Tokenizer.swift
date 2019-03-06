@@ -8,7 +8,7 @@
 import Foundation
 
 class Tokenizer {
-    func getAllTokens(input: String) -> [Token] {
+    public func getAllTokens(input: String) -> [Token] {
         var tokens: [Token] = []
         var currentIndex = input.startIndex
         repeat {

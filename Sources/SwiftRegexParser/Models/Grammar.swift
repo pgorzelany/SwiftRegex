@@ -4,36 +4,35 @@
 
 import Foundation
 
-enum AST {
+public enum AST {
     case expression(Expression)
     case term(Term)
     case factor(Factor)
     case atom(Atom)
-    case metacharacter(Metacharacter)
 }
 
-indirect enum Expression {
+public indirect enum Expression {
     case term(Term)
     case or(Term, Expression)
 }
 
-indirect enum Term {
+public indirect enum Term {
     case simple(Factor)
     case composite(Factor, Term)
 }
 
-enum Factor {
+public enum Factor {
     case simple(Atom)
     case composite(Atom, Metacharacter)
 }
 
-enum Atom {
+public enum Atom {
     case character(Character)
     case any
     case group(Expression)
 }
 
-enum Metacharacter: String {
+public enum Metacharacter: String {
     case zeroOrOne = "?"
     case zeroOrMore = "*"
     case oneOrMore = "+"
