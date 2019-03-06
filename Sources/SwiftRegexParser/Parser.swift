@@ -8,8 +8,11 @@
 import Foundation
 
 class Parser {
-    func parse(input: ArraySlice<Token>) -> ParseResult<Expression>? {
-        return parseExpression(input: input)
+    func parse(input: ArraySlice<Token>) throws -> Expression {
+        guard let parseResults = parseExpression(input: input), parseResults.reminder.isEmpty else {
+            throw NSError(domain: "parser", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid regex"])
+        }
+        return parseResults.ast
     }
 
     private func parseExpression(input: ArraySlice<Token>) -> ParseResult<Expression>? {

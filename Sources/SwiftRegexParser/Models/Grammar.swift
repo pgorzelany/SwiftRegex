@@ -4,6 +4,14 @@
 
 import Foundation
 
+enum AST {
+    case expression(Expression)
+    case term(Term)
+    case factor(Factor)
+    case atom(Atom)
+    case metacharacter(Metacharacter)
+}
+
 indirect enum Expression {
     case term(Term)
     case or(Term, Expression)
