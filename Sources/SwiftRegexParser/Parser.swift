@@ -7,8 +7,17 @@
 
 import Foundation
 
-class Parser {
-    public func parse(input: ArraySlice<Token>) throws -> Expression {
+public class Parser {
+
+    public init() {}
+
+    public func parse(regexString: String) throws -> AST {
+        let tokens = Tokenizer().getAllTokens(input: regexString)
+        let expression = try parse(input: tokens[...])
+        return AST.expression(expression)
+    }
+
+    func parse(input: ArraySlice<Token>) throws -> Expression {
         guard let parseResults = parseExpression(input: input), parseResults.reminder.isEmpty else {
             throw NSError(domain: "parser", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid regex"])
         }
