@@ -1,3 +1,3 @@
 # SwiftRegex
 
-A description of this package.
+A toy implementation of a regex parser and compiler written in Swift.
