@@ -1,24 +1,20 @@
 import Foundation
 
-public protocol RegexMatcher {
+protocol RegexMatcher {
     func match(input: ArraySlice<Character>) -> RegexMatch?
 }
 
-public class EmptyMatcher: RegexMatcher {
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+struct EmptyMatcher: RegexMatcher {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         return RegexMatch(characters: [], reminder: input)
     }
 }
 
-public class CharacterMatcher: RegexMatcher {
+struct CharacterMatcher: RegexMatcher {
 
     let character: Character
 
-    init(character: Character) {
-        self.character = character
-    }
-
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         guard let first = input.first, self.character == first else {
             return nil
         }
@@ -27,7 +23,7 @@ public class CharacterMatcher: RegexMatcher {
     }
 }
 
-public class AnyCharacterMatcher: RegexMatcher {
+class AnyCharacterMatcher: RegexMatcher {
 
     public func match(input: ArraySlice<Character>) -> RegexMatch? {
         guard let first = input.first else {
@@ -38,13 +34,9 @@ public class AnyCharacterMatcher: RegexMatcher {
     }
 }
 
-public class AndMatcher: RegexMatcher {
+struct AndMatcher: RegexMatcher {
 
-    public let matchers: [RegexMatcher]
-
-    init(matchers: [RegexMatcher]) {
-        self.matchers = matchers
-    }
+    let matchers: [RegexMatcher]
 
     public func match(input: ArraySlice<Character>) -> RegexMatch? {
         var results: [Character] = []
@@ -62,28 +54,20 @@ public class AndMatcher: RegexMatcher {
     }
 }
 
-public class OrMatcher: RegexMatcher {
+struct OrMatcher: RegexMatcher {
 
     let matchers: [RegexMatcher]
 
-    init(matchers: [RegexMatcher]) {
-        self.matchers = matchers
-    }
-
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         return matchers.lazy.compactMap({ $0.match(input: input) }).first
     }
 }
 
-public class OneOrMoreMatcher: RegexMatcher {
+struct OneOrMoreMatcher: RegexMatcher {
 
     let matcher: RegexMatcher
 
-    init(matcher: RegexMatcher) {
-        self.matcher = matcher
-    }
-
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         guard let firstMatch = matcher.match(input: input) else {
             return nil
         }
@@ -99,28 +83,20 @@ public class OneOrMoreMatcher: RegexMatcher {
     }
 }
 
-public class ZeroOrMoreMatcher: RegexMatcher {
+struct ZeroOrMoreMatcher: RegexMatcher {
 
     let matcher: RegexMatcher
 
-    init(matcher: RegexMatcher) {
-        self.matcher = matcher
-    }
-
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         return OneOrMoreMatcher(matcher: matcher).match(input: input) ?? EmptyMatcher().match(input: input)
     }
 }
 
-public class ZeroOrOneMatcher: RegexMatcher {
+struct ZeroOrOneMatcher: RegexMatcher {
 
     let matcher: RegexMatcher
 
-    init(matcher: RegexMatcher) {
-        self.matcher = matcher
-    }
-
-    public func match(input: ArraySlice<Character>) -> RegexMatch? {
+    func match(input: ArraySlice<Character>) -> RegexMatch? {
         return matcher.match(input: input) ?? EmptyMatcher().match(input: input)
     }
 }
