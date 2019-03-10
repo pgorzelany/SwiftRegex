@@ -39,7 +39,7 @@ class RegexCompiler {
                 case .oneOrMore:
                     return OneOrMoreMatcher(matcher: atomMatcher)
                 case .zeroOrMore:
-                    return ZeroOrOneMatcher(matcher: atomMatcher)
+                    return ZeroOrMoreMatcher(matcher: atomMatcher)
                 case .zeroOrOne:
                     return ZeroOrOneMatcher(matcher: atomMatcher)
                 }

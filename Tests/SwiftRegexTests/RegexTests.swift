@@ -39,11 +39,16 @@ class RegexTests: XCTestCase {
     }
 
     func testComplexRegex() {
-        let regexString = "ab*|(d?fg|(wow+))"
+        let regexString = "ab\\.*|(d?fg|(wow+))"
         if let regex = Regex(regex: regexString) {
             var inputString = "ab"
             var expectedMatch = "ab".map(Character.init)
             var match = regex.firstMatch(in: inputString)
+            XCTAssert(match?.characters == expectedMatch, "Match should equal expected match. Is: \(String(describing: match?.characters))")
+
+            inputString = "ab....asdsad"
+            expectedMatch = "ab....".map(Character.init)
+            match = regex.firstMatch(in: inputString)
             XCTAssert(match?.characters == expectedMatch, "Match should equal expected match. Is: \(String(describing: match?.characters))")
 
             inputString = "xwowwwwow"
